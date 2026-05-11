@@ -20,3 +20,9 @@ async def create_notification_endpoint(payload: CreateNotificationRequest) -> No
 @router.get("/notifications", response_model=list[NotificationResponse])
 async def get_notifications_endpoint(user_id: UUID = Query(...)) -> list[NotificationResponse]:
     return await get_notifications(user_id)
+
+
+@router.patch("/notifications/{notification_id}", response_model=NotificationResponse)
+async def mark_notification_read_endpoint(notification_id: UUID) -> NotificationResponse:
+    from app.clients.io_service import mark_notification_as_read
+    return await mark_notification_as_read(notification_id)
